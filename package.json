@@ -1,0 +1,11 @@
+{
+  "name": "aoc-2022",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "JS solutions for the Advent of Code 2022 problems",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alexanderbira",
+  "license": "ISC"
+}
