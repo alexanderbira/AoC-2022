@@ -16,8 +16,8 @@ const outcomes1 = {
   "B Z": 9,
   "C Y": 2,
   "C X": 7,
-  "C Z": 6
-}
+  "C Z": 6,
+};
 
 const outcomes2 = {
   "A Y": 4,
@@ -28,8 +28,8 @@ const outcomes2 = {
   "B X": 1,
   "C Y": 6,
   "C Z": 7,
-  "C X": 2
-}
+  "C X": 2,
+};
 
-console.log(moves.reduce((a,b)=>a+outcomes1[b], 0));
-console.log(moves.reduce((a,b)=>a+outcomes2[b], 0));
+console.log(moves.reduce((a, b) => a + outcomes1[b], 0));
+console.log(moves.reduce((a, b) => a + outcomes2[b], 0));
