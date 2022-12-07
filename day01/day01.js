@@ -1,9 +1,5 @@
-import { readFile } from "fs/promises";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const input = await readFile(join(__dirname, "input.txt"), "utf8");
+import read from "../readFile.js";
+const input = await read(import.meta.url);
 
 const sums = input.split("\n\n").map((nums) =>
   nums
