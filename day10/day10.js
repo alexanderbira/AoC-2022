@@ -8,38 +8,23 @@ const instructions = input
 let cycle = 0;
 let regA = 1; //x-coord of the sprite
 let sum = 0;
-const screen = [];
+let screen = "";
 
 const runCycle = () => {
+  screen += Math.abs(regA - (cycle % 40)) <= 1 ? "██" : "░░"; //double width for better readability
   cycle++;
   if (cycle % 40 === 20) {
     sum += regA * cycle;
   }
-  if (Math.abs(regA - ((cycle - 1) % 40)) <= 1) {
-    screen.push(true);
-  } else {
-    screen.push(false);
-  }
 };
 
-for (let i = 0; i < instructions.length; i++) {
-  const [instruction, value] = instructions[i];
-
-  if (instruction === "noop") {
+for (const [instruction, value] of instructions) {
+  runCycle();
+  if (instruction === "addx") {
     runCycle();
-  } else if (instruction === "addx") {
-    runCycle();
-    runCycle();
-
     regA += value;
   }
 }
 
 console.log(sum);
-console.log(
-  screen
-    .map((i) => (i ? "#" : "."))
-    .join("")
-    .replace(/(.{40})/g, "\n$1")
-    .slice(1)
-);
+console.log(screen.replace(/(.{80})/g, "$1\n"));

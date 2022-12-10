@@ -5,73 +5,47 @@ const moves = input
   .split("\n")
   .map((i) => [i.split(" ")[0], Number(i.split(" ")[1])]);
 
-const headPosition = [0, 0];
-const allTailPositions = [
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-  [0, 0],
-];
-const tailPositions = new Set();
-const lastTailPositions = new Set();
-tailPositions.add("0,0");
-lastTailPositions.add("0,0");
-
-function sign(x) {
-  return x > 0 ? 1 : x < 0 ? -1 : 0;
-}
+const positions = Array.from({ length: 10 }, () => [0, 0]);
+const firstTailPositions = new Set(["0,0"]);
+const lastTailPositions = new Set(["0,0"]);
 
 for (const [direction, distance] of moves) {
   for (let i = 0; i < distance; i++) {
     switch (direction) {
       case "U":
-        headPosition[1]++;
+        positions[0][1]++;
         break;
       case "D":
-        headPosition[1]--;
+        positions[0][1]--;
         break;
       case "L":
-        headPosition[0]--;
+        positions[0][0]--;
         break;
       case "R":
-        headPosition[0]++;
+        positions[0][0]++;
         break;
     }
 
-    for (let knot = 0; knot < allTailPositions.length; knot++) {
-      let xDiff, yDiff;
-      if (knot === 0) {
-        xDiff = headPosition[0] - allTailPositions[knot][0];
-        yDiff = headPosition[1] - allTailPositions[knot][1];
-      } else {
-        xDiff = allTailPositions[knot - 1][0] - allTailPositions[knot][0];
-        yDiff = allTailPositions[knot - 1][1] - allTailPositions[knot][1];
-      }
+    for (let knot = 1; knot < positions.length; knot++) {
+      let xDiff = positions[knot - 1][0] - positions[knot][0];
+      let yDiff = positions[knot - 1][1] - positions[knot][1];
 
-      if (Math.abs(xDiff) === 2 && Math.abs(yDiff) === 1) {
-        allTailPositions[knot][0] += sign(xDiff);
-        allTailPositions[knot][1] += sign(yDiff);
-      } else if (Math.abs(xDiff) === 1 && Math.abs(yDiff) === 2) {
-        allTailPositions[knot][0] += sign(xDiff);
-        allTailPositions[knot][1] += sign(yDiff);
-      } else if (Math.abs(xDiff) === 2 && Math.abs(yDiff) === 2) {
-        allTailPositions[knot][0] += sign(xDiff);
-        allTailPositions[knot][1] += sign(yDiff);
-      } else if (Math.abs(xDiff) === 2) {
-        allTailPositions[knot][0] += sign(xDiff);
+      if (Math.abs(xDiff) === 2) {
+        positions[knot][0] += Math.sign(xDiff);
+        if (Math.abs(yDiff) > 0) {
+          positions[knot][1] += Math.sign(yDiff);
+        }
       } else if (Math.abs(yDiff) === 2) {
-        allTailPositions[knot][1] += sign(yDiff);
+        positions[knot][1] += Math.sign(yDiff);
+        if (Math.abs(xDiff) === 1) {
+          positions[knot][0] += Math.sign(xDiff);
+        }
       }
     }
-    tailPositions.add(allTailPositions[0].join(","));
-    lastTailPositions.add(allTailPositions[8].join(","));
+    firstTailPositions.add(positions[1].join(","));
+    lastTailPositions.add(positions[9].join(","));
   }
 }
 
-console.log(tailPositions.size);
+console.log(firstTailPositions.size);
 console.log(lastTailPositions.size);

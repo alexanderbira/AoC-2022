@@ -1,50 +1,50 @@
 import read from "../readFile.js";
 const input = await read(import.meta.url);
 
-const lines = input.split("\n").map((line) => line.split("").map(Number));
+const heights = input.split("\n").map((line) => line.split("").map(Number));
 
 function getInfo(row, col) {
-  const val = lines[row][col];
+  const height = heights[row][col];
 
-  // check if all values above are smaller
+  // check if all trees above are smaller
   let above = true;
   let numAbove = 0;
   for (let i = row - 1; i >= 0; i--) {
     numAbove++;
-    if (lines[i][col] >= val) {
+    if (heights[i][col] >= height) {
       above = false;
       break;
     }
   }
 
-  // check if all values below are smaller
+  // check if all trees below are smaller
   let below = true;
   let numBelow = 0;
-  for (let i = row + 1; i < lines.length; i++) {
+  for (let i = row + 1; i < heights.length; i++) {
     numBelow++;
-    if (lines[i][col] >= val) {
+    if (heights[i][col] >= height) {
       below = false;
       break;
     }
   }
 
-  // check if all values left are smaller
+  // check if all trees left are smaller
   let left = true;
   let numLeft = 0;
   for (let i = col - 1; i >= 0; i--) {
     numLeft++;
-    if (lines[row][i] >= val) {
+    if (heights[row][i] >= height) {
       left = false;
       break;
     }
   }
 
-  // check if all values right are smaller
+  // check if all trees right are smaller
   let right = true;
   let numRight = 0;
-  for (let i = col + 1; i < lines[row].length; i++) {
+  for (let i = col + 1; i < heights[row].length; i++) {
     numRight++;
-    if (lines[row][i] >= val) {
+    if (heights[row][i] >= height) {
       right = false;
       break;
     }
@@ -59,15 +59,11 @@ function getInfo(row, col) {
 let count = 0;
 let maxScenic = 0;
 
-for (let row = 0; row < lines.length; row++) {
-  for (let col = 0; col < lines[row].length; col++) {
+for (let row = 0; row < heights.length; row++) {
+  for (let col = 0; col < heights[row].length; col++) {
     const [visibe, scenic] = getInfo(row, col);
-    if (visibe) {
-      count++;
-    }
-    if (scenic > maxScenic) {
-      maxScenic = scenic;
-    }
+    if (visibe) count++;
+    if (scenic > maxScenic) maxScenic = scenic;
   }
 }
 
