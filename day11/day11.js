@@ -4,7 +4,7 @@ const input = await read(import.meta.url);
 const monkeys = input.split("\n\n").map((monkey) => {
   const lines = monkey.split("\n");
   return {
-    items: lines[1].split(":")[1].trim().split(", "),
+    items: lines[1].split(":")[1].trim().split(", ").map(Number),
     operation: lines[2].split("= ")[1].split(" "),
     test: Number(lines[3].slice(21)),
     throwTo: [Number(lines[4].slice(29)), Number(lines[5].slice(30))],
