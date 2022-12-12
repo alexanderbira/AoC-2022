@@ -33,17 +33,23 @@ const getShortestPath = (start, end, direction) => {
       [x, y + 1],
       [x, y - 1],
     ].filter(([xn, yn]) => {
-      if (heightMap[yn] === undefined || heightMap[yn][xn] === undefined) return false;
+      if (heightMap[yn] === undefined || heightMap[yn][xn] === undefined)
+        return false;
       if (direction === "up") {
-        return heights.indexOf(heightMap[yn][xn]) <= heights.indexOf(heightMap[y][x])+1;
+        return (
+          heights.indexOf(heightMap[yn][xn]) <=
+          heights.indexOf(heightMap[y][x]) + 1
+        );
       } else {
-        return heights.indexOf(heightMap[y][x]) <= heights.indexOf(heightMap[yn][xn])+1;
+        return (
+          heights.indexOf(heightMap[y][x]) <=
+          heights.indexOf(heightMap[yn][xn]) + 1
+        );
       }
-
     });
     queue.push(...neighbors.map((neighbor) => [neighbor, distance + 1]));
   }
-}
+};
 
 console.log(getShortestPath(start, "E", "up"));
 console.log(getShortestPath(end, "a", "down"));
