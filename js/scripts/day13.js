@@ -1,5 +1,5 @@
 import read from "../readFile.js";
-const input = await read(import.meta.url);
+const input = await read(13);
 
 const pairs = input.split("\n\n").map((i) => i.split("\n").map((i) => eval(i)));
 

@@ -1,7 +1,7 @@
 use std::time::Instant;
 
 fn main() {
-    let input = include_str!("./inputs/day01.txt");
+    let input = include_str!("../../inputs/day01.txt");
     let now = Instant::now();
     day01(input);
     println!("Finished in: {:.3?}", now.elapsed());

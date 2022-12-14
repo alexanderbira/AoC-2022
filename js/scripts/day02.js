@@ -1,5 +1,5 @@
 import read from "../readFile.js";
-const input = await read(import.meta.url);
+const input = await read(2);
 
 const moves = input.split("\n");
 

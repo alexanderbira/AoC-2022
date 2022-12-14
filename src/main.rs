@@ -5,12 +5,12 @@ use std::process::Command;
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let day = &args[1];
-    println!("Running Day {}:", day);
     let day = if day.len() == 1 {
         format!("0{}", day)
     } else {
         day.to_string()
     };
+    println!("Running Day {}:", day);
     let day = format!("day{}", day);
     let output = Command::new("cargo")
         .arg("run")

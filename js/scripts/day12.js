@@ -1,5 +1,5 @@
 import read from "../readFile.js";
-const input = await read(import.meta.url);
+const input = await read(12);
 
 const heightMap = input.split("\n").map((line) => line.split(""));
 

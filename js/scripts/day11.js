@@ -1,5 +1,5 @@
 import read from "../readFile.js";
-const input = await read(import.meta.url);
+const input = await read(11);
 
 const monkeys = input.split("\n\n").map((monkey) => {
   const lines = monkey.split("\n");
