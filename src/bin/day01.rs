@@ -17,14 +17,14 @@ fn day01(input: &str) {
                 .collect::<Vec<i32>>()
         })
         .collect::<Vec<Vec<i32>>>();
-    
+
     let mut sum = 0;
     let mut greatest_three_sums = [0, 0, 0];
 
     for group in input {
         for num in group {
             sum += num;
-        }  
+        }
 
         if sum > greatest_three_sums[1] {
             if sum > greatest_three_sums[0] {
@@ -36,9 +36,10 @@ fn day01(input: &str) {
             greatest_three_sums = [greatest_three_sums[0], greatest_three_sums[1], sum];
         }
         sum = 0;
-        
     }
     println!("{}", greatest_three_sums[0]);
-    println!("{}", greatest_three_sums[0]+greatest_three_sums[1]+greatest_three_sums[2]);
-
+    println!(
+        "{}",
+        greatest_three_sums[0] + greatest_three_sums[1] + greatest_three_sums[2]
+    );
 }
