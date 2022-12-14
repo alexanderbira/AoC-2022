@@ -42,7 +42,6 @@ function getSands() {
 
     while (true) {
       if (grid_[sand[0] + 1] === undefined) {
-        grid_[sand[0]][sand[1]] = 2;
         break;
       } else if (grid_[sand[0] + 1][sand[1]] === 0) {
         sand[0]++;
@@ -53,10 +52,10 @@ function getSands() {
         sand[0]++;
         sand[1]++;
       } else {
-        grid_[sand[0]][sand[1]] = 2;
         break;
       }
     }
+    grid_[sand[0]][sand[1]] = 2;
   }
 
   return sands;
