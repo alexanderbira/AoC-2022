@@ -26,4 +26,34 @@ fn day03(input: &str) {
     }
   });
   println!("{}", sum);
+
+  let rucksacks = input.lines().collect::<Vec<&str>>();
+  let mut groups = Vec::new();
+  let mut i = 0;
+  while i < rucksacks.len() {
+    groups.push(vec![rucksacks[i], rucksacks[i + 1], rucksacks[i + 2]]);
+    i += 3;
+  }
+
+  let mut group_badges = Vec::new();
+  for group in groups {
+    for i in 0..group[0].len() {
+      if group[1].contains(group[0].chars().nth(i).unwrap())
+        && group[2].contains(group[0].chars().nth(i).unwrap())
+      {
+        group_badges.push(group[0].chars().nth(i).unwrap());
+        break;
+      }
+    }
+  }
+
+  sum = 0;
+  for badge in group_badges {
+    sum += if (badge as i32) < 91 {
+      badge as i32 - 38
+    } else {
+      badge as i32 - 96
+    };
+  }
+  println!("{}", sum);
 }
