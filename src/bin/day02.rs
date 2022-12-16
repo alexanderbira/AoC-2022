@@ -1,5 +1,5 @@
-use std::time::Instant;
 use std::collections::HashMap;
+use std::time::Instant;
 
 fn main() {
   let input = include_str!("../../inputs/day02.txt");
@@ -18,7 +18,7 @@ fn day02(input: &str) {
     ("B Z", 9),
     ("C Y", 2),
     ("C X", 7),
-    ("C Z", 6)
+    ("C Z", 6),
   ]);
   let outcomes2 = HashMap::from([
     ("A Y", 4),
@@ -29,7 +29,7 @@ fn day02(input: &str) {
     ("B X", 1),
     ("C Y", 6),
     ("C Z", 7),
-    ("C X", 2)
+    ("C X", 2),
   ]);
 
   let mut sum1 = 0;
@@ -42,6 +42,4 @@ fn day02(input: &str) {
 
   println!("{}", sum1);
   println!("{}", sum2);
-  
-
 }
