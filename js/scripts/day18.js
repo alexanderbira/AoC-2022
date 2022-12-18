@@ -5,6 +5,7 @@ const coords = input.split("\n").map((i) => i.split(",").map(Number));
 
 let surfaceArea = 6 * coords.length;
 
+//for each block subtract the number of faces which are touching another block
 for (let [x, y, z] of coords) {
   coords.forEach(([x2, y2, z2]) => {
     if (x === x2 && y === y2 && z === z2) return;
@@ -29,42 +30,89 @@ const zMax = Math.max(...z) + 1;
 
 const visited = new Set();
 
-//returns the number of faces which block the flood fill
-function getBlockingFaces(x, y, z) {
-  //if the coordinates are outside the cube, return 0
-  if (x < xMin || x > xMax || y < yMin || y > yMax || z < zMin || z > zMax)
-    return 0;
+//returns the number of faces which block the flood fill of the outer surface
+function getBlockingFaces(x, y, z, offSurfaceMoves) {
 
-  //if the coordinates are already visited, return 0
-  if (visited.has(`${x},${y},${z}`)) return 0;
+  //if the coordinates are outside the cube containing the surface or have already been visited, return 0
+  if (x < xMin || x > xMax || y < yMin || y > yMax || z < zMin || z > zMax || visited.has(`${x},${y},${z}`)) return 0;
+
+  let numFaces = 0;
+  let faces = 0b000000;
+
+  //check if there is a block in any of the 6 directions and set the corresponding bit in faces
+  coords.forEach(([x2, y2, z2]) => {
+    if (x === x2 && y === y2 && z === z2 + 1) {
+      faces |= 0b000001;
+      numFaces++;
+      return;
+    }
+    if (x === x2 && y === y2 && z === z2 - 1) {
+      faces |= 0b000010;
+      numFaces++;
+      return;
+    }
+    if (x === x2 && z === z2 && y === y2 + 1) {
+      faces |= 0b000100;
+      numFaces++;
+      return;
+    }
+    if (x === x2 && z === z2 && y === y2 - 1) {
+      faces |= 0b001000;
+      numFaces++;
+      return;
+    }
+    if (y === y2 && z === z2 && x === x2 + 1) {
+      faces |= 0b010000;
+      numFaces++;
+      return;
+    }
+    if (y === y2 && z === z2 && x === x2 - 1) {
+      faces |= 0b100000;
+      numFaces++;
+      return;
+    }
+  });
+
+  //if is touching the surface
+  if (faces !== 0) {
+    offSurfaceMoves = 0;
+  } else {
+    offSurfaceMoves++;
+    if (offSurfaceMoves > 1) return 0; //if it's more than 1 block away from the surface, ignore any subsequent blocks
+  }
 
   //add the coordinates to the visited set
   visited.add(`${x},${y},${z}`);
 
-  let numFaces = 0;
-
-  //if the coordinates are in coords, add 1 to the number of faces
-  //otherwise, call the function again with the new coordinates
-  if (coords.some((i) => i[0] === x + 1 && i[1] === y && i[2] === z))
-    numFaces++;
-  else numFaces += getBlockingFaces(x + 1, y, z, visited);
-  if (coords.some((i) => i[0] === x - 1 && i[1] === y && i[2] === z))
-    numFaces++;
-  else numFaces += getBlockingFaces(x - 1, y, z, visited);
-  if (coords.some((i) => i[0] === x && i[1] === y + 1 && i[2] === z))
-    numFaces++;
-  else numFaces += getBlockingFaces(x, y + 1, z, visited);
-  if (coords.some((i) => i[0] === x && i[1] === y - 1 && i[2] === z))
-    numFaces++;
-  else numFaces += getBlockingFaces(x, y - 1, z, visited);
-  if (coords.some((i) => i[0] === x && i[1] === y && i[2] === z + 1))
-    numFaces++;
-  else numFaces += getBlockingFaces(x, y, z + 1, visited);
-  if (coords.some((i) => i[0] === x && i[1] === y && i[2] === z - 1))
-    numFaces++;
-  else numFaces += getBlockingFaces(x, y, z - 1, visited);
+  for (let i = 0; i < 6; i++) {
+    if ((0b100000>>i & faces)!==0) continue; //there was a block in that direction
+    
+    //if there isn't a block in that direction, move in that direction and check again
+    switch (i) {
+      case 5:
+        numFaces += getBlockingFaces(x, y, z - 1, offSurfaceMoves);
+        break;
+      case 4:
+        numFaces += getBlockingFaces(x, y, z + 1, offSurfaceMoves);
+        break;
+      case 3:
+        numFaces += getBlockingFaces(x, y - 1, z, offSurfaceMoves);
+        break;
+      case 2:
+        numFaces += getBlockingFaces(x, y + 1, z, offSurfaceMoves);
+        break;
+      case 1:
+        numFaces += getBlockingFaces(x - 1, y, z, offSurfaceMoves);
+        break;
+      case 0:
+        numFaces += getBlockingFaces(x + 1, y, z, offSurfaceMoves);
+        break;
+    }
+  }
 
   return numFaces;
 }
 
-console.log(getBlockingFaces(xMin, yMin, zMin));
+const start = [...coords.find((i) => i[0] === xMin+1)]; //start at some point just above the surface
+
+console.log(getBlockingFaces(xMin, start[1], start[2], 0));
