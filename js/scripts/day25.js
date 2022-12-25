@@ -27,7 +27,6 @@ const snafuToDec = (snafu) => {
   return dec;
 };
 
-
 const decToSnafu = (dec) => {
   //get the number of digits
   let numDigits = 1;
@@ -45,7 +44,6 @@ const decToSnafu = (dec) => {
   const snafuDigits = ["=", "-", "0", "1", "2"];
 
   for (let digit = 1; digit < numDigits; digit++) {
-
     //find the last digit that does not go over dec
     let lastDigit = 0;
     while (snafuToDec(snafu.join("")) <= dec && lastDigit < 5) {
@@ -55,10 +53,9 @@ const decToSnafu = (dec) => {
       lastDigit++;
       snafu[digit] = snafuDigits[lastDigit];
     }
-    
+
     lastDigit--;
     snafu[digit] = snafuDigits[lastDigit];
-
   }
 
   return snafu.join("");
